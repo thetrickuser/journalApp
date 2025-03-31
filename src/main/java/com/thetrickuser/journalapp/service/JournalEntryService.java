@@ -1,6 +1,5 @@
 package com.thetrickuser.journalapp.service;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
@@ -22,7 +21,7 @@ public class JournalEntryService {
     return repository.findAll();
   }
 
-  public JournalEntry addEntry(JournalEntry entry) {
+  public JournalEntry saveEntry(JournalEntry entry) {
     entry.setDate(LocalDateTime.now());
     return repository.save(entry);
   }
