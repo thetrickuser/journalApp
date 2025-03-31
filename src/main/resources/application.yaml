@@ -1,0 +1,11 @@
+spring:
+  application:
+    name: JournalApp
+  data:
+    mongodb:
+      host: localhost
+      port: 27017
+      database: journaldb
+
+server:
+  port: 8080
