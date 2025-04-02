@@ -44,24 +44,24 @@ public class JournalEntryController {
     
 
     @PostMapping
-    public ResponseEntity<JournalEntry> addEntry(@RequestBody JournalEntry entry) {
+    public ResponseEntity<?> addEntry(@RequestBody JournalEntry entry) {
         try {
-            JournalEntry entry2 = service.saveEntry(entry);
-            return new ResponseEntity<>(entry2, HttpStatus.CREATED);
+            service.saveEntry(entry);
+            return new ResponseEntity<>(HttpStatus.CREATED);
         } catch (Exception e) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<JournalEntry> modifyEntry(@PathVariable ObjectId id, @RequestBody JournalEntry newEntry) {
+    public ResponseEntity<?> modifyEntry(@PathVariable ObjectId id, @RequestBody JournalEntry newEntry) {
         Optional<JournalEntry> existingEntryOptional = service.findEntryById(id);
         if (existingEntryOptional.isPresent()) {
             JournalEntry existingEntry = existingEntryOptional.get();
             existingEntry.setTitle(newEntry.getTitle() != null && !newEntry.getTitle().equals("") ? newEntry.getTitle() : existingEntry.getTitle());     
             existingEntry.setContent(newEntry.getContent() != null && !newEntry.getContent().equals("") ? newEntry.getContent() : existingEntry.getContent());
-            JournalEntry entry = service.saveEntry(existingEntry);
-            return new ResponseEntity<>(entry, HttpStatus.CREATED);
+            service.saveEntry(id, existingEntry);
+            return new ResponseEntity<>(HttpStatus.CREATED);
         } else {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
